@@ -38,7 +38,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -53,7 +53,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -68,7 +68,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -83,7 +83,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -95,7 +95,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -110,7 +110,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -125,7 +125,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >
@@ -140,7 +140,7 @@ const Homepage = ({ bookTask }) => {
             <div className="dashboard-img">
               <a
                 href="/task/1/book"
-                target="_blank"
+                target="_self"
                 rel="noreferrer"
                 bookTask={bookTask}
               >

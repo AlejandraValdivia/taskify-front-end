@@ -159,7 +159,7 @@ const App = () => {
           <NavBar user={user} handleSignout={handleSignout} />
           <Routes>
             {user ? (
-              <Route path="/" element={<Dashboard user={user} />} />
+              <Route path="/" element={<Dashboard user={user} bookTask={handleBookTask}/>} />
             ) : (
               <Route path="/" element={<Landing />} />
             )}
