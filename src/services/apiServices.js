@@ -7,30 +7,12 @@ export const signup = async (user) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     });
-    const IsParsable = (data) => {
-      try {
-        JSON.parse(data);
-      } catch (e) {
-        return false;
-      }
-      return true;
-    };
-
-    const Obj = JSON.stringify({
-      results: IsParsable(res) ? JSON.parse(res) : false,
-    });
-
-    return IsParsable(Obj) ? JSON.parse(Obj) : false;
-
-    if (json.token) {
-      localStorage.setItem("token", json.token); // add this line to store the JWT token in localStorage
-
-      const user = JSON.parse(atob(json.token.split(".")[1]));
-
-      return user;
-    }
-    if (json.err) {
-      throw new Error(json.err);
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      return data.user;
+    } else {
+      throw new Error(data.error);
     }
   } catch (err) {
     console.log(err);
@@ -45,31 +27,12 @@ export const signin = async (user) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
     });
-
-    const IsParsable = (data) => {
-      try {
-        JSON.parse(data);
-      } catch (e) {
-        return false;
-      }
-      return true;
-    };
-
-    const Obj = JSON.stringify({
-      results: IsParsable(res) ? JSON.parse(res) : false,
-    });
-
-    return IsParsable(Obj) ? JSON.parse(Obj) : false;
-
-    if (json.token) {
-      localStorage.setItem("token", json.token);
-
-      const user = JSON.parse(atob(json.token.split(".")[1]));
-
-      return user;
-    }
-    if (json.err) {
-      throw new Error(json.err);
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      return JSON.parse(atob(data.token.split(".")[1]));
+    } else {
+      throw new Error(data.error);
     }
   } catch (err) {
     console.log(err);
@@ -80,8 +43,7 @@ export const signin = async (user) => {
 export const getUser = () => {
   const token = localStorage.getItem("token");
   if (!token) return null;
-  const user = JSON.parse(atob(token.split(".")[1]));
-  return user;
+  return JSON.parse(atob(token.split(".")[1]));
 };
 
 export const signout = () => {
@@ -90,122 +52,90 @@ export const signout = () => {
 
 /* API CALLS FOR TASKS */
 
-export const getTasks = async (tasks) => {
+export const getTasks = async () => {
   try {
-    const response = await fetch(BACKEND_URL + "/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tasks),
-    });
-    const tasks = await response.json();
-    return tasks;
+    const response = await fetch(`${BACKEND_URL}/tasks`);
+    if (!response.ok) throw new Error("Error fetching tasks");
+    return await response.json();
   } catch (error) {
-    error.message = "Error fetching tasks";
     throw error;
   }
 };
 
-export const getTask = async (task) => {
+export const getTask = async (taskId) => {
   try {
-    const response = await fetch(BACKEND_URL + "/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(task),
-    });
-    const task = await response.json();
-    return task;
+    const response = await fetch(`${BACKEND_URL}/tasks/${taskId}`);
+    if (!response.ok) throw new Error("Error fetching task");
+    return await response.json();
   } catch (error) {
-    error.message = "Error fetching task";
     throw error;
   }
 };
 
 export const addTask = async (task) => {
   try {
-    const response = await fetch(BACKEND_URL + "/tasks", {
+    const response = await fetch(`${BACKEND_URL}/tasks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(task),
     });
-    const newTask = await response.json();
-    return newTask;
+    if (!response.ok) throw new Error("Error adding task");
+    return await response.json();
   } catch (error) {
-    error.message = "Error fetching task";
     throw error;
   }
 };
 
-export const deleteTask = async (task) => {
+export const deleteTask = async (taskId) => {
   try {
-    const response = await fetch(BACKEND_URL + "/tasks", {
-      method: "POST",
+    const response = await fetch(`${BACKEND_URL}/tasks/${taskId}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(task),
     });
-    const newTask = await response.json();
-    return newTask;
+    if (!response.ok) throw new Error("Error deleting task");
+    return await response.json();
   } catch (error) {
-    error.message = "Error fetching tasks";
     throw error;
   }
 };
 
-export const updateTask = async (task, updatedTask) => {
-  if (!task || !updatedTask) {
-    throw new Error("Error: task or updatedTask is null or undefined");
-  }
+export const updateTask = async (taskId, updatedTask) => {
   try {
-    const response = await fetch(BACKEND_URL + "/tasks", {
-      method: "POST",
+    const response = await fetch(`${BACKEND_URL}/tasks/${taskId}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(task),
+      body: JSON.stringify(updatedTask),
     });
-
-    const task = await response.json();
-    const updatedTask = await updateTask(task, updatedTask);
-    return updatedTask;
+    if (!response.ok) throw new Error("Error updating task");
+    return await response.json();
   } catch (error) {
-    error.message = "Error fetching task";
     throw error;
   }
 };
 
-export const bookTask = (task) => {
+export const bookTask = async (taskId) => {
   try {
-    if (task) {
-      console.log("App: bookTask", task);
-      const updatedTask = { ...task, booked: true };
-      setTask((prevTasks) =>
-        prevTasks.map((task) => (task._id === task._id ? updatedTask : task))
-      );
-      setBooked(true);
-    }
+    const task = await getTask(taskId);
+    const updatedTask = { ...task, booked: true };
+    return await updateTask(taskId, updatedTask);
   } catch (error) {
-    error.message = "Error fetching task";
     throw error;
   }
 };
 
-export const searchTask = async (task) => {
+export const searchTask = async (taskName) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/tasks?name=${task}`);
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
+    const response = await fetch(`${BACKEND_URL}/tasks?name=${taskName}`);
+    if (!response.ok) throw new Error("Error searching task");
     const tasks = await response.json();
     return tasks.length > 0 ? tasks[0] : null;
   } catch (error) {
-    error.message = "Error fetching task";
     throw error;
   }
 };
