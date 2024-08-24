@@ -176,7 +176,7 @@ const App = () => {
               element={<SigninForm setUser={setUser} />}
             />
             <Route path="/dashboard" element={<Dashboard tasks={task} />} />
-            <Route path="/tasks" element={<TaskList tasks={tasks} />} />
+            <Route path="/tasks" element={<TaskList tasks={tasks} handleBookTask={handleBookTask} />} />
             <Route path="/task/:id" element={<TaskCard tasks={task} />} />
             <Route
               path="/task/:id/book"
@@ -208,3 +208,4 @@ const App = () => {
 };
 
 export default App;
+

@@ -1,4 +1,5 @@
 const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
+console.log('Backend URL:', BACKEND_URL); // Check if the URL is correct
 
 export const signup = async (user) => {
   try {
@@ -54,13 +55,25 @@ export const signout = () => {
 
 export const getTasks = async () => {
   try {
-    const response = await fetch(`${BACKEND_URL}/tasks`);
-    if (!response.ok) throw new Error("Error fetching tasks");
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${BACKEND_URL}/tasks`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Error fetching tasks: ${response.status} ${response.statusText}: ${errorText}`);
+    }
     return await response.json();
   } catch (error) {
+    console.error('Error fetching tasks:', error.message);
     throw error;
   }
 };
+
 
 export const getTask = async (taskId) => {
   try {
