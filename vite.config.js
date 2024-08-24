@@ -6,8 +6,10 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env': {
-      VITE_EXPRESS_BACKEND_URL: JSON.stringify('https://taskify-back-end.onrender.com')
+      VITE_EXPRESS_BACKEND_URL: JSON.stringify(process.env.VITE_EXPRESS_BACKEND_URL || 'http://localhost:3000'),
     }
   }
 });
+
+
 
