@@ -5,7 +5,12 @@
 Taskify is a comprehensive task management application designed to help users organize and book various tasks efficiently. The app offers functionalities to book home repairs, yard work, painting, cleaning, junk removal, and more. Taskify was built to address the need for a user-friendly platform where users can easily manage and delegate tasks, ensuring a seamless and stress-free experience.
 
 ## Deployed App:
-https://taskify-front-end-hu20.onrender.com/
+https://taskify-frontend.onrender.com/
+
+## Screen Shots
+![Taskify Sign Up Page](public/images/screencapture-localhost-5173-2024-08-24-22_59_31.png)
+![Taskify Dashboard](public/images/screencapture-localhost-5173-2024-08-25-10_42_26.png)
+
 
 Logo
 ![Taskify Logo](public/images/taskify-logo.png)
@@ -14,7 +19,7 @@ Style Tyle and Typography
 ![Taskify Logo](public/images/taskify-style-tile.jpg)
 
 ## Getting Started
-- **Deployed App**: [https://taskify-front-end-hu20.onrender.com/]()
+- **Deployed App**: [https://taskify-frontend.onrender.com/]()
 
 
 ## Installation Instructions
